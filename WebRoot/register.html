@@ -83,30 +83,35 @@
                 <lead class="h4">新用户注册</lead>
                 <a href="index.html" class="pull-right">返回用户首页</a>
             </div>
-            <form class="form-horizontal register-form" role="form" data-ng-controller="formCtrl" name="register" >
+            <form class="form-horizontal register-form" role="form" data-ng-controller="formCtrl" name="register"  >
                 <div class="form-group has-feedback">
                     <label for="tel" class="col-sm-2 control-label">Tel</label>
-                    <div class="col-sm-6">
+                    <div class="col-sm-5">
                         <input type="tel" class="form-control" id="tel" placeholder="Tel" data-ng-pattern="/^1\d{10}$/" name="tel" ng-blur="check()" ng-model="form.tel">
-                        <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="register.tel.$dirty&&register.tel.$valid"></span>
                         <span class="help-block">注册后不能修改</span>
+                    </div>
+                    <div class="col-sm-4 text-danger comment" ng-show="register.tel.$dirty&&register.tel.$invalid">
+                        <span>您输入的手机格式有误 ！</span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-                    <div class="col-sm-6">
+                    <div class="col-sm-5">
                         <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputPassword4" class="col-sm-2 control-label">Again</label>
-                    <div class="col-sm-6">
+                    <div class="col-sm-5">
                         <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+                    </div>
+                    <div class="col-sm-4 text-danger comment" >
+                        <span id="again">您输入的密码不一致 ！</span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputUser" class="col-sm-2 control-label">Username</label>
-                    <div class="col-sm-6">
+                    <div class="col-sm-5">
                         <input type="text" class="form-control" id="inputUser" placeholder="Username">
                     </div>
                 </div>
@@ -151,6 +156,22 @@
 <script>
     angular.module('app',[])
             .controller('formCtrl',function($scope,$element){
+                console.log($scope);
+                $('#again').hide();
+                $('#tel').blur(function(){
+                    if($(this).val().trim()!==''){
+                        $(this).after("<span class='glyphicon glyphicon-ok form-control-feedback'></span>");
+                        $(this).parent().parent().addClass('has-success');
+                    }
+                });
+                $('#inputPassword4').blur(function(){
+                    if($('#inputPassword4').val()!==$('#inputPassword3').val()){
+                        $('#again').fadeIn();
+                    }else{
+                        $('#again').fadeOut();
+                    }
+                })
+
             })
 </script>
 </body>
